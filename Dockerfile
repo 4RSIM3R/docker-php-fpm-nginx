@@ -9,7 +9,7 @@ ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-a
 RUN apk --update add ca-certificates
 
 # add php repository
-RUN echo "https://dl.bintray.com/php-alpine/v3.12/php-8.0" >> /etc/apk/repositories
+RUN echo "https://packages.whatwedo.ch/php-alpine/3.14/php-8" >> /etc/apk/repositories
 
 # Install packages
 RUN apk --no-cache add php \
