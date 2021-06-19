@@ -43,11 +43,14 @@ COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Setup document root
 RUN mkdir -p /var/www/html
 
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R 777 /var/www/html && \
+  chown -R 777 /run && \
+  chown -R 777 /var/lib/nginx && \
+  chown -R 777 /var/log/nginx
 
 WORKDIR /var/www/html
 
-COPY --chown=nobody src/ /var/www/html/
+COPY src/ /var/www/html/
 
 EXPOSE 80
 
