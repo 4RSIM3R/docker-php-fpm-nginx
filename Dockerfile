@@ -29,7 +29,7 @@ RUN apk --no-cache add php \
        htop 
 
 # https://github.com/codecasts/php-alpine/issues/21
-RUN ln -s /usr/bin/php8 /usr/bin/php --force
+# RUN ln -s /usr/bin/php8 /usr/bin/php --force
 
 # Configure nginx
 COPY server/nginx.conf /etc/nginx/nginx.conf
