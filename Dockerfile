@@ -40,6 +40,9 @@ COPY server/nginx.conf /etc/nginx/nginx.conf
 # Configure supervisord
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Configure PHP-FPM
+COPY conf/fpm-pool.conf /etc/php8/php-fpm.d/www.conf
+
 # Setup document root
 RUN mkdir -p /var/www/html
 
