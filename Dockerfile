@@ -27,10 +27,7 @@ RUN apk --no-cache add php \
        vim \
        libssl-dev \
        procps \
-       htop \
-       libxml2-dev \
-       libonig-dev \
-       zlib1g-dev
+       htop 
 
 # https://github.com/codecasts/php-alpine/issues/21
 RUN ln -s /usr/bin/php7 /usr/bin/php
