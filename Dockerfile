@@ -25,7 +25,6 @@ RUN apk --no-cache add php \
        supervisor \
        curl \
        vim \
-       libssl-dev \
        procps \
        htop 
 
