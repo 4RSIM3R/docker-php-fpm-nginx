@@ -35,7 +35,7 @@ RUN apk --no-cache add php \
 COPY server/nginx.conf /etc/nginx/nginx.conf
 
 # Remove default server definition
-RUN rm /etc/nginx/conf.d/default.conf
+# RUN rm /etc/nginx/conf.d/default.conf
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
