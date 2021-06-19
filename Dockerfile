@@ -38,7 +38,7 @@ COPY server/nginx.conf /etc/nginx/nginx.conf
 # RUN rm /etc/nginx/conf.d/default.conf
 
 # Configure supervisord
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Setup document root
 RUN mkdir -p /var/www/html
