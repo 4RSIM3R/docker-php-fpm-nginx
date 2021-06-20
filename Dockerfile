@@ -16,6 +16,8 @@ RUN apk --no-cache add \
   php8-json \
   php8-mbstring \
   php8-mysqli \
+  php8-pdo \
+  php8-pdo_mysql \
   php8-opcache \
   php8-openssl \
   php8-phar \
@@ -23,8 +25,25 @@ RUN apk --no-cache add \
   php8-xml \
   php8-xmlreader \
   php8-zlib \
+  php8-exif \
   supervisor \
   && rm /etc/nginx/conf.d/default.conf
+
+RUN apk update \
+  && apk upgrade \
+  && apk add --no-cache \ 
+    libpng-dev \
+    libjpeg-dev
+
+RUN apk add --no-cache --virtual .build-deps \
+        libxml2-dev \
+        shadow \
+        autoconf \
+        g++ \
+        make \
+    && apk add --no-cache imagemagick-dev imagemagick \
+    && pecl install imagick-beta \
+    && apk del .build-deps
 
 # Create symlink so programs depending on `php` still function
 RUN ln -s /usr/bin/php8 /usr/bin/php
@@ -43,17 +62,14 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /var/www/html
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
-RUN chown -R nobody.nobody /var/www/html && \
-  chown -R nobody.nobody /run && \
-  chown -R nobody.nobody /var/lib/nginx && \
-  chown -R nobody.nobody /var/log/nginx
-
-# Switch to use a non-root user from here on
-USER nobody
+RUN chown -R 777 /var/www/html && \
+  chown -R 777 /run && \
+  chown -R 777 /var/lib/nginx && \
+  chown -R 777 /var/log/nginx
 
 # Add application
 WORKDIR /var/www/html
-COPY --chown=nobody src/ /var/www/html/
+COPY src/ /var/www/html/
 
 # Expose the port nginx is reachable on
 EXPOSE 80
