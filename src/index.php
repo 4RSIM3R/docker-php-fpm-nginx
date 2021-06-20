@@ -1,3 +1,3 @@
 <?php
 
-phpinfo();
+echo "Lightweight PHP-FPM + Nginx Image";
