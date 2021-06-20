@@ -1,63 +1,16 @@
-FROM alpine:3.14.0
+FROM alpine:latest
 
 LABEL Maintainer="Nexteam <developer@nexteam.id>" \
       Description="Lightweight container with Nginx 1.16 & PHP-FPM 7.4 based on Alpine Linux"
 
-#ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
-# make sure you can use HTTPS
-RUN apk --update add ca-certificates
-
-# add php repository
-RUN echo "https://dl.bintray.com/php-alpine/v3.14/php-8.0" >> /etc/apk/repositories
-
-# Install packages
-RUN apk --no-cache add php \
-       php-fpm \
-       php-opcache \
-       php-openssl \
-       php-curl \
-       php-mysqli \
-       php-pdo \
-       php-pdo_mysql \
-       php-mbstring \
-       nginx \
-       supervisor \
-       curl \
-       vim \
-       procps \
-       htop 
-
-# https://github.com/codecasts/php-alpine/issues/21
-# RUN ln -s /usr/bin/php8 /usr/bin/php --force
-
-# Configure nginx
-COPY server/nginx.conf /etc/nginx/nginx.conf
-
-# Remove default server definition
-# RUN rm /etc/nginx/conf.d/default.conf
-
-# Configure supervisord
-COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Configure PHP-FPM
-COPY conf/fpm-pool.conf /etc/php8/php-fpm.d/www.conf
-
-# Setup document root
-RUN mkdir -p /var/www/html
-
-RUN chown -R 777 /var/www/html && \
-  chown -R 777 /run && \
-  chown -R 777 /var/lib/nginx && \
-  chown -R 777 /var/log/nginx
-
-WORKDIR /var/www/html
-
-COPY src/ /var/www/html/
-
-EXPOSE 80
-
-# Let supervisord start nginx & php-fpm
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
-
-
+RUN apk update \
+  && apk add --no-cache nginx php8-fpm php8-mcrypt \
+    php8-soap php8-openssl php8-gmp \
+    php8-pdo_odbc php8-json php8-dom \
+    php8-pdo php8-zip php8-mysqli \
+    php8-apcu php8-pdo_pgsql \
+    php8-bcmath php8-gd php8-odbc \
+    php8-pdo_mysql \
+    php8-gettext php8-xmlreader php8-xmlrpc \
+    php8-bz2 php8-iconv php8-pdo_dblib php8-curl php8-ctype \
+    supervisor
