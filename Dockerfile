@@ -24,5 +24,4 @@ RUN apk --no-cache add \
   php8-xml \
   php8-xmlreader \
   php8-zlib \
-  supervisor \
-  && rm /etc/nginx/conf.d/default.conf
+  supervisor
