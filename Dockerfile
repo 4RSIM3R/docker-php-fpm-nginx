@@ -25,3 +25,19 @@ RUN apk --no-cache add \
   php8-xmlreader \
   php8-zlib \
   supervisor
+
+COPY server/nginx.conf /etc/nginx/nginx.conf
+
+    # Setup document root
+RUN mkdir -p /var/www/html
+
+    # Make sure files/folders needed by the processes are accessable when they run under the nobody user
+RUN chown -R 777 /var/www/html && \
+      chown -R 777 /run && \
+      chown -R 777 /var/lib/nginx && \
+      chown -R 777 /var/log/nginx
+
+WORKDIR /var/www/html
+COPY src/ /var/www/html/
+
+EXPOSE 80
